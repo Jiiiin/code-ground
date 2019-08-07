@@ -1,0 +1,29 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+//使用迭代器来划分分数段
+int main()
+{
+	vector<unsigned>vUS(11);
+	auto it = vUS.begin();
+	int ival;
+	int cnt = 0;
+	cout << "请输入一组成绩:" << endl;
+	while (cin>>ival)
+	{
+		if (ival<101)
+		{
+			++*(it + ival / 10);
+		}
+		cnt++;
+	}
+	cout << "您总共输入了 " << cnt << "个成绩" << endl;
+	cout << "各个分数段的人数分布（由低到高）是：" << endl;
+	for ( it = vUS.begin(); it < vUS.end(); it++)
+	{
+		cout << *it << " ";
+	}
+	cout << endl;
+	system("pause");
+	return 0;
+}

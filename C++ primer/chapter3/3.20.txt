@@ -1,0 +1,44 @@
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+//练习3.20，将每对相邻整数的和输出出来，
+//输出第一个和最后一个元素的和，第二个和倒数第二个，以此类推
+int main()
+{
+	int num;
+	vector<int>vec;
+	while (cin>>num)
+	{
+		vec.push_back(num);
+	}
+	if (vec.size()==0)
+	{
+		cout << "没有任何元素" << endl;
+		return -1;
+	}
+	cout << "相邻整数和" << endl;
+	for (decltype(vec.size()) i = 0; i < vec.size()-1; i++)
+	{
+		cout << vec[i] + vec[i + 1] << endl;
+	}
+	cout << "首尾相加" << endl;
+	auto b = vec.size() / 2;
+	if (auto a=vec.size()-2*b)//a=1，vec.size()是奇数
+	{
+		for (auto i = 0; i < b; i++)
+		{
+			cout << vec[i] + vec[vec.size() - 1 - i] << endl;
+		}
+		cout << vec[b] << endl;
+	}
+	else
+	{
+		for (auto i = 0; i < b; i++)
+		{
+			cout << vec[i] + vec[vec.size() - 1 - i] << endl;
+		}
+	}
+	system("pause");
+	return 0;
+}

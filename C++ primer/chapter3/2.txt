@@ -1,0 +1,42 @@
+#include<string>
+#pragma once
+
+struct Sales_data {
+	std::string bookNo;
+	unsigned inits_sold = 0;
+	double revenue = 0.0;
+};
+#endif // !SALES_DATA_H
+
+
+
+#include"Sales_data.h"
+using namespace std;
+int main()
+{
+	Sales_data data1, data2;
+	double price = 0.0;
+	cin >> data1.bookNo >> data1.inits_sold >> price;
+	data1.revenue = data1.inits_sold*price;
+	cin >> data2.bookNo >> data2.inits_sold >> price;
+	data2.revenue = data2.inits_sold*price;
+	if (data1.bookNo==data2.bookNo)
+	{
+		auto totalcnt = data1.inits_sold + data2.inits_sold;
+		auto totalRevenue = data1.revenue + data2.revenue;
+		cout << data1.bookNo << " " << totalcnt << " " << totalRevenue << " ";
+		if (totalcnt!=0)
+		{
+			cout << totalRevenue / totalcnt << endl;
+		}
+		else
+		{
+			cout << "(no sales)" << endl;
+		}
+	}
+	else
+	{
+		cerr << "Data must refer to the same ISBN." << endl;
+		return -1;
+	}
+}
