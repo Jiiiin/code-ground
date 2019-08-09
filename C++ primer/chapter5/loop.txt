@@ -1,0 +1,139 @@
+//5.14 从标准输入读取string 查找连续重复出现的单词，记录连续重复出现单词的最大次数及对应的单词
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+int main()
+{
+	string currstring, prestring = "", maxstring;
+	int currcnt = 1, maxcnt = 0;
+	while (cin >> currstring)
+	{
+		if (currstring==prestring)
+		{
+			++currcnt;
+			if (currcnt > maxcnt)
+			{
+				maxcnt = currcnt;
+				maxstring = currstring;
+			}
+		}
+		else
+		{
+			currcnt = 1;
+			prestring = currstring;
+		}
+	}
+	if (maxcnt>1)
+	{
+		cout << "the max : " << maxcnt << " " << maxstring << endl;
+	}
+	else
+	{
+		cout << "没有连续重复出现的单词" << endl;
+	}
+	system("pause");
+	return 0;
+}
+
+
+//5.14 用vector索引的方法
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+int main()
+{
+	vector<string> vstr;
+	string currstring, maxstring;
+	decltype(vstr.size()) start = 0, last = 0, maxcnt = 1, cnt = 1;
+	while (cin>>currstring)
+	{
+		vstr.push_back(currstring);
+	}
+	while (start!=vstr.size()-1)
+	{
+		if (vstr[start]==vstr[start+1])
+		{
+			++cnt;
+			++start;
+		}
+		else
+		{
+			if (cnt > maxcnt)
+			{
+				maxcnt = cnt;
+				maxstring = vstr[start];
+			}
+			cnt = 1;
+			++start;
+		}
+
+	}
+	if (cnt > maxcnt)
+	{
+		maxcnt = cnt;
+		maxstring = vstr[start];
+	}
+	cout << maxcnt << " " << maxstring << endl;
+	system("pause");
+	return 0;
+}
+
+
+//5.19 do while 循环，输入两个string 输出最短的那个
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+int main()
+{
+	string str1, str2, rsp;
+	do
+	{
+		cout << "please enter two strings: " << endl;
+		cin >> str1 >> str2;
+		cout << endl;
+		string result = (str1.size() < str2.size()) ? str1 : str2;
+		cout << result << endl;
+		cout << "enter more?(y or n)" << endl;
+		cin >> rsp;
+	} while (!rsp.empty() && rsp[rsp.size() - 1]!='n');
+	system("pause");
+	return 0;
+}
+
+
+
+//5.20
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+int main()
+{
+	string currstring, prestring = "";
+	bool bl = false;
+	while (cin>>currstring)
+	{
+		if (currstring == prestring)
+		{
+			bl = true;
+			break;
+		}
+		else
+		{
+			prestring = currstring;
+		}
+	}
+	if (bl)
+	{
+		cout << "重复出现的： "<<currstring << endl;
+	}
+	else
+	{
+		cout << "没有两个连续重复的单词" << endl;
+	}
+	system("pause");
+	return 0;
+}

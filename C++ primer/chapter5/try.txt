@@ -1,0 +1,67 @@
+//try 语句块和异常处理
+#include<iostream>
+#include<string>
+#include<vector>
+#include"Sales_item.h"
+using namespace std;
+int main()
+{
+	Sales_item item1, item2;
+	while (cin>> item1 >> item2)
+	{
+		try 
+		{
+			if (item1.isbn() != item2.isbn())
+			{
+				throw runtime_error("data must refer to same isbn!");
+			}
+			cout << item1 + item2 << endl;
+		}
+		catch (runtime_error err)
+		{
+			cout << err.what() << "\nTry Again? Enter y or n" << endl;
+			char c;
+			cin >> c;
+			if (!cin || c == 'n')
+			{
+				break;
+			}
+		}
+	}
+	system("pause");
+	return 0;
+}
+
+
+//5.23
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+int main()
+{
+	int c1, c2;
+	while (cin>> c1 >> c2)
+	{
+		try 
+		{
+			if (c2 == 0)
+			{
+				throw runtime_error("the second number can't be zero!");
+			}
+			cout << c1 / c2 << endl;
+		}
+		catch (runtime_error err)
+		{
+			cout << err.what() << "\nTry Again? Enter y or n" << endl;
+			char c;
+			cin >> c;
+			if (!cin || c == 'n')
+			{
+				break;
+			}
+		}
+	}
+	system("pause");
+	return 0;
+}

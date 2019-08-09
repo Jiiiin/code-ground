@@ -1,0 +1,85 @@
+//5.11
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+int main()
+{
+	unsigned vowelcnt = 0, spacecnt = 0, tablecnt = 0, newlinecnt = 0;
+	char ch;
+	while (cin.get(ch))
+	{
+		switch (ch)
+		{
+		case 'a': case 'e': case 'i': case 'o': case 'u':
+		case 'A': case 'E': case 'I': case 'O': case 'U':
+			++vowelcnt;
+			break;
+		case ' ':
+			++spacecnt;
+			break;
+		case '\t':
+			++tablecnt;
+			break;
+		case '\n':
+			++newlinecnt;
+			break;
+		default:
+			break;
+		}
+	}
+	cout << "the number of vowelcnt: " << vowelcnt << endl;
+	cout << "the number of spacecnt: " << spacecnt << endl;
+	cout << "the number of tablecnt: " << tablecnt << endl;
+	cout << "the number of newlinecnt: " << newlinecnt << endl;
+	system("pause");
+	return 0;
+}
+
+
+
+//5.12
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+int main()
+{
+	unsigned ffcnt = 0, ficnt = 0, flcnt = 0;
+	char ch, prech = '\0';
+	while (cin>>ch)
+	{
+		bool bl = true;
+		if (prech=='f')
+		{
+			switch (ch)
+			{
+			case 'f':
+				++ffcnt;
+				bl = false;
+				break;
+			case 'i':
+				++ficnt;
+				break;
+			case 'l':
+				++flcnt;
+				break;
+			default:
+				break;
+			}
+		}
+		if (!bl)
+		{
+			prech = '\0';
+		}
+		else
+		{
+			prech = ch;
+		}
+	}
+	cout << "the number of ff: " << ffcnt << endl;
+	cout << "the number of fi: " << ficnt << endl;
+	cout << "the number of fl: " << flcnt << endl;
+	system("pause");
+	return 0;
+}
