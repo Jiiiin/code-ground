@@ -107,7 +107,7 @@ const projectRouters = {
                             "children": []
                         },
                         {
-                            "path": "router4",
+                            "path": "router5",
                             "component": "Router5Component",
                             "param": "",
                             "canActivate": "",
@@ -149,12 +149,26 @@ const projectRouters = {
     ],
     "guards": []
 };
+const projectRoutersArray:any = [];
+const blockRoutersArray: any = [];
 
+flattenRouters(projectRouters.routers[0], '', projectRoutersArray);
+flattenRouters(blockRouters.routers[0], '', blockRoutersArray, []);
+
+const conflictedRouters = showConflicted(projectRoutersArray, blockRoutersArray);
+
+conflictedRouters.forEach((conflictedRouter) => {
+    conflictedRouter['newpath'] = conflictedRouter.path + '1';
+    return conflictedRouter;
+    }
+);
+handleConflicted(conflictedRouters, blockRouters.routers[0]);
+console.dir(JSON.stringify(blockRouters));
 
 function flattenRouters(routers: RouterInfo, parentPath: string, routersArray: RouterArray[], index?, searchPath?) {
     if (!searchPath) {
         searchPath = [];
-        searchPath.push(0);
+        searchPath.push('root');
     } else {
         searchPath.push(index);
     }
@@ -163,23 +177,41 @@ function flattenRouters(routers: RouterInfo, parentPath: string, routersArray: R
         path: routers.path, 
         component: routers.component,
         parentPath: parentPath,
-        searchPath: searchPath};
+        searchPath: searchPath.slice(0)};
     routersArray.push(temp);
-    routers['searchPath'] = searchPath;
     if (routers.children) {
         routers.children.forEach((child, index) => flattenRouters(child, temp.fullpath, routersArray, index, searchPath.slice(0)));
     }
 }
-let projectRoutersArray = [];
-let conflictedArray: any;
-flattenRouters(projectRouters.routers[0], '', projectRoutersArray);
-conflictedArray = findConflictedArray();
-let conflictedRoutersArray = projectRoutersArray.filter(value => 
-    conflictedArray.indexOf(value.searchPath.join(',')) > -1 );
-console.log(conflictedRoutersArray)
 
-function findConflictedArray(): any[] {
-    return projectRoutersArray
-    .filter(value => projectRoutersArray.filter((value2 => value2.fullpath === value.fullpath)).length > 1)
-    .map(value => value.searchPath.join(','))
+function showConflicted(projectRoutersArray: RouterArray[], blockRoutersArray: RouterArray[]) {
+    const conflictedRouters: RouterArray[] = [];
+    projectRoutersArray.forEach(projectRouter => 
+        blockRoutersArray.forEach((blockRouter) => {
+            if (blockRouter.fullpath === projectRouter.fullpath && blockRouter.component !== 'AppComponent') {
+                conflictedRouters.push(blockRouter);
+            }
+        })
+    );
+    return conflictedRouters;
+}
+
+function handleConflicted(conflictedRouters: RouterArray[], blockRouters: RouterInfo) {
+    conflictedRouters.forEach((conflictedRouter) => {
+        renameBlockRouters(conflictedRouter, 0, blockRouters);
+    });
+}
+
+function renameBlockRouters(conflictResolvedRouter: any, i: number, routers: RouterInfo) {
+    const searchPath = conflictResolvedRouter.searchPath;
+    if (searchPath.length - 1 === i ) {
+        routers.path = conflictResolvedRouter.newpath;
+    } else {
+        if (routers.children) {
+            i = i + 1;
+            const index = searchPath[i];
+            const child = routers.children[index];
+            renameBlockRouters(conflictResolvedRouter, i,  child);
+        }
+    }
 }
